@@ -12,8 +12,7 @@ to the user.
 ________________________________________
 Project Notes
 
-Understanding the Prompt
-The CEP problem statement defined a unified assistant that 
+The problem statement defined a unified assistant that 
 (1) distinguishes general queries from news requests, 
 (2) integrates a real-time news API plus web search, 
 (3) manages workflow and error handling, and 
