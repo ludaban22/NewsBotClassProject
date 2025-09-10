@@ -38,8 +38,8 @@ Build Process
 1. Environment & Dependency Setup
 
 •	Consolidated dependencies into a clean requirements.txt with relaxed version ranges to avoid resolver conflicts (kept langchain and langchain-community in the same 0.3.x band).
-•	Centralized secrets in .env (OPENAI_API_KEY, TAVILY_API_KEY, ALPHAVANTAGE_API_KEY, NEWSAPI_API_KEY) and loaded them with load_dotenv.
-•	Removed notebook-only code (get_ipython, %pip) from the rough Jupyter Notebook file using VS Code to ensure clean app runs.
+•	Centralized secrets in .env (OPENAI_API_KEY, TAVILY_API_KEY, ALPHAVANTAGE_API_KEY, NEWSAPI_API_KEY) and loaded them with load_dotenv. [API secrets need to be loaded into a .env file]
+•	Removed notebook-only code (e.g., get_ipython, %pip) from the rough Jupyter Notebook file using VS Code to ensure clean app runs.
 
 2. Category-Aware Routing (LangGraph)
 
