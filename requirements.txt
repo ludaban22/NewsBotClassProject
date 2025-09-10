@@ -1,0 +1,21 @@
+# Core LLM + orchestration
+langchain>=0.3.23,<0.4
+langchain-community>=0.3.23,<0.4
+langchain-openai>=0.2.10,<0.3
+langgraph>=0.3.4,<0.4
+
+# OpenAI client
+openai>=1.40,<2
+
+# Web/search utilities used by tools
+requests>=2.31
+feedparser>=6.0
+duckduckgo-search>=6.1,<7
+langchain-tavily>=0.1.0,<0.2
+
+# App / UI
+streamlit>=1.29,<2
+python-dotenv>=1.0,<2
+
+# Optional
+matplotlib>=3.7,<4
