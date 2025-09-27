@@ -1,4 +1,6 @@
 #environment setup
+## install black and isort for code formatting, and pylint for linting
+## I like pipenv for virtual environments, but you can use venv or conda or poetry
 import os, json, re, requests, datetime as dt, urllib.parse as ul, feedparser
 from pathlib import Path
 from dotenv import load_dotenv
@@ -21,6 +23,7 @@ from langgraph.graph.message import add_messages
 #for tools creation
 from langchain_core.messages import ToolMessage, AIMessage, HumanMessage
 
+## separate constants files then import constants
 ALPHA_VANTAGE_URL = "https://www.alphavantage.co/query"
 NEWSAPI_BASE = "https://newsapi.org/v2"
 
@@ -100,6 +103,7 @@ class BasicToolNode:
         # With add_messages, return ONLY new messages to append
         return {"messages": out_msgs}
 
+## use a logger 
 # Debug log for tests 
 DEBUG_EVENTS = []
 
@@ -160,6 +164,7 @@ def _format_news(feed: List[dict], max_items: int = 5) -> str:
         lines.append(f"- {title}{sent_note} ({ts_fmt})\n  {url}")
     return "\n".join(lines) if lines else "No headlines returned."
 
+# decorators are a little funky.  Pretty sure this is right.
 @tool("alpha_vantage_news", return_direct=False)
 def alpha_vantage_news_tool(query: str) -> str:
     """Finance news via Alpha Vantage NEWS_SENTIMENT. Input: a ticker (e.g., 'AAPL') or a topic (e.g., 'electric vehicles'). Returns latest headlines."""
@@ -228,6 +233,7 @@ def _ddg_news(query: str, max_results: int = 8) -> List[dict]:
             })
     return out
 
+# these hints might be better as constants or importing from a yaml, toml, or csv
 def _sports_query_boost(q: str) -> str:
     # Boost recall with common sports words; harmless if already present
     hints = ["NFL","NBA","MLB","NHL","MLS","game","score","schedule","trades","injury","coach","team"]
@@ -288,6 +294,8 @@ llm_with_tools = llm.bind_tools(tools)
 
 # --- Category routing + category-specific chatbots ---
 
+# same note on having these defined in a file
+# line length is too long for my taste :) 
 # Coarse keyword router (fast + deterministic).
 FIN_WORDS    = r"(stock|stocks|ticker|earnings|ipo|sec|fed|dividend|market|finance|financial|nasdaq|nyse|dow|s&p|bond|alpha vantage|ticker:[A-Z]{1,6})"
 SPORTS_WORDS = r"(nfl|nba|mlb|nhl|mls|premier league|broncos|yankees|lakers|espn|odds|bet|draft|fantasy|game|score|schedule|player|coach|team)"
@@ -397,7 +405,7 @@ graph = graph_builder.compile()
 graph
 
 # --- Streamlit UI (single-input, auto-router) ---
-
+## WTF is that special character? 
 st.title("📰 NewsGenie — Finance • Sports • Tech • General News")
 
 # Initialize chat history once
@@ -443,10 +451,9 @@ if prompt:
                 continue  # hide raw tool output
             with st.chat_message("assistant"):
                 st.write(getattr(m, "content", str(m)))
-
+## catching bare except like this is a no-no.  But its fine. 
     except Exception as e:
         st.error(f"Error: {e}")
-
 
 
 
